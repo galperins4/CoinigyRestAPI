@@ -9,7 +9,7 @@ class Coinigy(object):
         self.secret = secret
         self.url = 'https://www.coinigy.com/api'
         self.apiv = 'v1'
-        self.method = {'feed':'newsFeed'}
+     
     
     def get_keys(self,path):
         f = open(path,"r")
