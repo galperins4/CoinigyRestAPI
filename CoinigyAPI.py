@@ -9,7 +9,6 @@ class Coinigy(object):
         self.secret = secret
         self.url = 'https://www.coinigy.com/api'
         self.apiv = 'v1'
-     
     
     def get_keys(self,path):
         f = open(path,"r")
@@ -17,13 +16,14 @@ class Coinigy(object):
         self.secret = f.readline().strip()
         
     def request(self, method, data=None):
+        self.data=data
         headers = {'Content-Type': 'application/json',
                    'X-API-KEY': self.key,
                    'X-API-SECRET': self.secret}
         uri='{method}'.format(method=method)
         url=self.url+'/'+self.apiv+'/'+uri
         
-        return requests.post(url, headers=headers)   
+        return requests.post(url, data=self.data, headers=headers)   
                          
     def userInfo(self):
         return self.request('userInfo')  
@@ -37,14 +37,17 @@ class Coinigy(object):
     def accounts(self):
         return self.request('accounts')
     
-    #WIP
-    def balances(self):
-        params=None
+    def balances(self, show_nils, auth_ids):
+        '''Note - not sure API works currectly
+        can pass any number and blank string (or non-existant auth-id)
+        for 2 variables and still returns balance information          
+        '''
+        params={'show_nils': show_nils,
+                'auth_ids': auth_ids}
         return self.request('balances', data=params)
     
-    #WIP
-    def balanceHistory(self):
-        params=None
+    def balanceHistory(self, date):
+        params={'date': date}
         return self.request('balanceHistory', data=params)
         
     def orders(self):
